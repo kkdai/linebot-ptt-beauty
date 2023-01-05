@@ -16,8 +16,10 @@ import (
 var logger *log.Logger
 var meta = &models.Model{}
 var logRoot = "logs"
+var no_db = true
 
 func main() {
+
 	logFile, err := initLogFile()
 	// dbHostPort := os.Getenv("MongoDBHostPort")
 	defer logFile.Close()
@@ -29,7 +31,8 @@ func main() {
 
 	err = createSchema(db)
 	if err != nil {
-		panic(err)
+		log.Println("DB err:", err)
+		no_db = false
 	}
 
 	users := []controllers.UserFavorite{}
